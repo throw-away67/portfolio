@@ -36,7 +36,7 @@ def resolve_filepath(url: str, out_folder: str, preserve_path: bool) -> str:
         return os.path.join(out_folder, filename)
 
 
-def producer(url, queue, filepath, timeout, max_retries, retry_backoff):
+def download(url, queue, filepath, timeout, max_retries, retry_backoff):
     try:
         print(f"[Producer] Downloading: {url}")
         last_exc = None
@@ -60,7 +60,7 @@ def producer(url, queue, filepath, timeout, max_retries, retry_backoff):
         print(f"[Producer] Error downloading {url}: {e}")
 
 
-def consumer(queue, skip_existing):
+def save(queue, skip_existing):
     while True:
         item = queue.get()
         if item is None:
@@ -296,14 +296,14 @@ def main():
     producer_threads = []
 
     for _ in range(args.consumers):
-        t = threading.Thread(target=consumer, args=(queue, args.skip_existing), daemon=True)
+        t = threading.Thread(target=save, args=(queue, args.skip_existing), daemon=True)
         t.start()
         consumer_threads.append(t)
 
     for url in to_download:
         filepath = url_to_path[url]
         t = threading.Thread(
-            target=producer,
+            target=download,
             args=(url, queue, filepath, args.timeout, args.max_retries, args.retry_backoff),
         )
         t.start()
