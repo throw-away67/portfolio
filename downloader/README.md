@@ -1,24 +1,8 @@
-Parallel File Downloader
+downloader.py — Options, descriptions and examples
+===============================================
 
-A simple Python script to download files from URLs using a producer-consumer model with multiple threads.
-
-Features:
-- Download multiple files in parallel
-- Supports URLs from command line or text file
-- Saves files into a specified output folder
-
-Usage:
-
-1. Download from URLs directly:
-python main.py --urls https://example.com/file1.txt https://example.com/file2.jpg --out downloads
-
-2. Download from a text file:
-python main.py --file urls.txt --out downloads
-
-3. Example with all arguments:s
-python main.py --urls https://example.com/file1.txt https://example.com/file2.jpg --file urls.txt --out downloads --producers 4 --consumers 2
-
-Arguments:
+Options
+-------
 
 --urls             : Provide one or more URLs on the command line.
 --file             : Path to a text file with one URL per line.
