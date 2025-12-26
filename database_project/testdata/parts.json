@@ -1,0 +1,4 @@
+[
+  {"sku":"FAN-120MM","name":"Case fan 120mm","unit_price":199.0,"stock_qty":15,"is_active":true},
+  {"sku":"PASTE-5G","name":"Thermal paste 5g","unit_price":129.0,"stock_qty":40,"is_active":true}
+]

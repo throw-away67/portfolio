@@ -1,0 +1,14 @@
+[app]
+name = "ServiceDesk"
+log_level = "INFO"
+
+[db]
+host = "localhost"
+port = 5432
+name = "servicedesk"
+user = "postgres"
+password = "postgres"
+sslmode = "disable"
+
+[business]
+default_hourly_rate = 650.0
