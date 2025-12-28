@@ -1,9 +1,5 @@
--- ServiceDesk (D1 - Repository pattern)
--- PostgreSQL DDL: tables, types, constraints
-
 BEGIN;
 
--- Clean (for re-import during testing)
 DROP VIEW IF EXISTS v_customer_activity;
 DROP VIEW IF EXISTS v_order_totals;
 
@@ -17,10 +13,8 @@ DROP TABLE IF EXISTS customer;
 
 DROP TYPE IF EXISTS order_status;
 
--- ENUM (DTypes: enum)
 CREATE TYPE order_status AS ENUM ('new', 'in_progress', 'done', 'cancelled');
 
--- CUSTOMER (string, bool)
 CREATE TABLE customer (
   id            BIGSERIAL PRIMARY KEY,
   full_name     VARCHAR(200) NOT NULL,
@@ -31,17 +25,15 @@ CREATE TABLE customer (
   CONSTRAINT uq_customer_email UNIQUE (email)
 );
 
--- ASSET (string)
 CREATE TABLE asset (
   id            BIGSERIAL PRIMARY KEY,
   customer_id   BIGINT NOT NULL REFERENCES customer(id) ON DELETE CASCADE,
-  asset_type    VARCHAR(50) NOT NULL,          -- e.g. 'pc', 'car', 'bike'
-  label         VARCHAR(200) NOT NULL,         -- e.g. "Lenovo T480", "Octavia 2.0 TDI"
-  serial_no     VARCHAR(100),                  -- can be VIN / SN
+  asset_type    VARCHAR(50) NOT NULL,
+  label         VARCHAR(200) NOT NULL,
+  serial_no     VARCHAR(100),
   created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
--- PART (float numeric, string, int)
 CREATE TABLE part (
   id            BIGSERIAL PRIMARY KEY,
   sku           VARCHAR(64) NOT NULL,
@@ -53,7 +45,6 @@ CREATE TABLE part (
   CONSTRAINT uq_part_sku UNIQUE (sku)
 );
 
--- SERVICE ORDER (enum, datetime)
 CREATE TABLE service_order (
   id            BIGSERIAL PRIMARY KEY,
   customer_id   BIGINT NOT NULL REFERENCES customer(id),
@@ -65,7 +56,6 @@ CREATE TABLE service_order (
   completed_at  TIMESTAMPTZ
 );
 
--- TASKS (float numeric)
 CREATE TABLE service_task (
   id            BIGSERIAL PRIMARY KEY,
   order_id      BIGINT NOT NULL REFERENCES service_order(id) ON DELETE CASCADE,
@@ -74,22 +64,20 @@ CREATE TABLE service_task (
   hourly_rate   NUMERIC(10,2) NOT NULL CHECK (hourly_rate >= 0)
 );
 
--- M:N (order <-> part)
 CREATE TABLE order_part (
   order_id      BIGINT NOT NULL REFERENCES service_order(id) ON DELETE CASCADE,
   part_id       BIGINT NOT NULL REFERENCES part(id),
   quantity      INTEGER NOT NULL CHECK (quantity > 0),
-  unit_price    NUMERIC(10,2) NOT NULL CHECK (unit_price >= 0), -- price snapshot at time of order
+  unit_price    NUMERIC(10,2) NOT NULL CHECK (unit_price >= 0),
   PRIMARY KEY (order_id, part_id)
 );
 
--- PAYMENT (float numeric, bool, datetime)
 CREATE TABLE payment (
   id            BIGSERIAL PRIMARY KEY,
   order_id      BIGINT NOT NULL REFERENCES service_order(id) ON DELETE CASCADE,
   amount        NUMERIC(10,2) NOT NULL CHECK (amount >= 0),
   paid_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
-  method        VARCHAR(30) NOT NULL DEFAULT 'cash', -- cash/card/transfer
+  method        VARCHAR(30) NOT NULL DEFAULT 'cash',
   is_refund     BOOLEAN NOT NULL DEFAULT FALSE
 );
 

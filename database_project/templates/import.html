@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Import Data{% endblock %}
+{% block content %}
+<h2>Import Data</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5>Import Customers (CSV)</h5>
+        <p class="text-muted">Required columns: <code>full_name, email, phone, is_vip</code></p>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="mode" value="customers">
+            <div class="mb-3">
+                <input type="file" name="file" class="form-control" accept=". csv" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Upload Customers</button>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h5>Import Parts (JSON)</h5>
+        <p class="text-muted">JSON array with: <code>sku, name, unit_price, stock_qty, is_active</code></p>
+        <form method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="mode" value="parts">
+            <div class="mb-3">
+                <input type="file" name="file" class="form-control" accept=".json" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Upload Parts</button>
+        </form>
+    </div>
+</div>
+
+<hr class="my-4">
+
+<h4>Example Files</h4>
+
+<div class="accordion" id="examplesAccordion">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingCSV">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseCSV">
+                customers.csv example
+            </button>
+        </h2>
+        <div id="collapseCSV" class="accordion-collapse collapse" data-bs-parent="#examplesAccordion">
+            <div class="accordion-body">
+        <pre><code>full_name,email,phone,is_vip
+Alice Novakova,alice@example.com,+420777000111,yes
+Bob Hruby,bob@example.com,+420777000222,no
+Karel Svoboda,karel@test.cz,+420777333444,true</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingJSON">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseJSON">
+                parts.json example
+            </button>
+        </h2>
+        <div id="collapseJSON" class="accordion-collapse collapse" data-bs-parent="#examplesAccordion">
+            <div class="accordion-body">
+        <pre><code>[
+  {
+    "sku": "FAN-120MM",
+    "name": "Case fan 120mm",
+    "unit_price": 199.0,
+    "stock_qty":  15,
+    "is_active": true
+  },
+  {
+    "sku": "PASTE-5G",
+    "name": "Thermal paste 5g",
+    "unit_price": 129.0,
+    "stock_qty": 40,
+    "is_active":  true
+  }
+]</code></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

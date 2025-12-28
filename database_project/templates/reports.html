@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+<h2>Reports (Last 30 Days)</h2>
+
+<div class="card mb-4">
+  <div class="card-body">
+    <h5>Revenue Summary</h5>
+    <p><strong>Orders:</strong> {{ revenue. orders_count }}</p>
+    <p><strong>Payments Total:</strong> {{ revenue.payments_sum }}</p>
+    <p><strong>Parts Total:</strong> {{ revenue.parts_sum }}</p>
+    <p><strong>Total Hours:</strong> {{ revenue.total_hours }}</p>
+  </div>
+</div>
+
+<h4>Top Parts (by quantity)</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>SKU</th>
+      <th>Name</th>
+      <th>Total Qty</th>
+      <th>Total Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in top_parts %}
+    <tr>
+      <td>{{ p.sku }}</td>
+      <td>{{ p.name }}</td>
+      <td>{{ p.total_qty }}</td>
+      <td>{{ p.total_value }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

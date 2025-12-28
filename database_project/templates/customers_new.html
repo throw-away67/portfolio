@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}New Customer{% endblock %}
+{% block content %}
+<h2>New Customer</h2>
+<form method="POST">
+  <div class="mb-3">
+    <label class="form-label">Full Name*</label>
+    <input type="text" name="full_name" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Email</label>
+    <input type="email" name="email" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Phone</label>
+    <input type="text" name="phone" class="form-control">
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" name="is_vip" class="form-check-input" id="chkVip">
+    <label class="form-check-label" for="chkVip">VIP</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Create</button>
+  <a href="{{ url_for('customers_list') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

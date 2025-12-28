@@ -48,7 +48,6 @@ class PartRepository:
         return [dict(zip(cols, row)) for row in cur.fetchall()]
 
     def decrease_stock(self, conn: Connection, *, part_id: int, qty: int) -> None:
-        # Prevent negative stock using WHERE condition (atomic)
         cur = conn.execute(
             """
             UPDATE part

@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block title %}New Order{% endblock %}
+{% block content %}
+<h2>Create Order (Multi-table)</h2>
+<form method="POST">
+  <h4>1. Customer</h4>
+  <div class="mb-3">
+    <label><input type="radio" name="customer_mode" value="existing" checked> Existing</label>
+    <label><input type="radio" name="customer_mode" value="new"> New</label>
+  </div>
+  <div id="customer-existing">
+    <select name="customer_id" class="form-select">
+      <option value="">-- select customer --</option>
+      {% for c in customers %}
+      <option value="{{ c.id }}">{{ c.full_name }} ({{ c.email or 'no email' }})</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div id="customer-new" style="display: none;">
+    <input type="text" name="full_name" class="form-control mb-2" placeholder="Full Name">
+    <input type="email" name="email" class="form-control mb-2" placeholder="Email">
+    <input type="text" name="phone" class="form-control mb-2" placeholder="Phone">
+    <label><input type="checkbox" name="is_vip"> VIP</label>
+  </div>
+
+  <h4 class="mt-4">2. Asset</h4>
+  <div class="mb-3">
+    <label><input type="radio" name="asset_mode" value="existing" checked> Existing</label>
+    <label><input type="radio" name="asset_mode" value="new"> New</label>
+  </div>
+  <div id="asset-existing">
+    <select name="asset_id" class="form-select">
+      <option value="">-- select asset --</option>
+      {% for a in assets %}
+      <option value="{{ a.id }}">{{ a.label }} ({{ a.asset_type }}) – {{ a.customer_name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div id="asset-new" style="display: none;">
+    <input type="text" name="asset_type" class="form-control mb-2" placeholder="Type (pc/car/bike)">
+    <input type="text" name="asset_label" class="form-control mb-2" placeholder="Label">
+    <input type="text" name="asset_serial" class="form-control mb-2" placeholder="Serial (optional)">
+  </div>
+
+  <h4 class="mt-4">3. Order Info</h4>
+  <div class="mb-3">
+    <label class="form-label">Title*</label>
+    <input type="text" name="title" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Note</label>
+    <textarea name="note" class="form-control" rows="2"></textarea>
+  </div>
+
+  <h4 class="mt-4">4. Tasks</h4>
+  <div id="tasks-container"></div>
+  <button type="button" class="btn btn-sm btn-secondary" onclick="addTask()">+ Add Task</button>
+
+  <h4 class="mt-4">5. Parts</h4>
+  <div id="parts-container"></div>
+  <button type="button" class="btn btn-sm btn-secondary" onclick="addPart()">+ Add Part</button>
+
+  <hr class="my-4">
+  <button type="submit" class="btn btn-primary btn-lg">Create Order</button>
+  <a href="{{ url_for('orders_list') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Customer mode toggle
+document.querySelectorAll('input[name="customer_mode"]').forEach(r => {
+  r.addEventListener('change', e => {
+    document. getElementById('customer-existing').style.display = e.target.value === 'existing' ? 'block' : 'none';
+    document.getElementById('customer-new').style.display = e.target. value === 'new' ? 'block' : 'none';
+  });
+});
+
+// Asset mode toggle
+document.querySelectorAll('input[name="asset_mode"]').forEach(r => {
+  r.addEventListener('change', e => {
+    document.getElementById('asset-existing').style.display = e.target.value === 'existing' ? 'block' : 'none';
+    document.getElementById('asset-new').style.display = e.target.value === 'new' ? 'block' : 'none';
+  });
+});
+
+// Tasks dynamic form
+let taskIdx = 0;
+function addTask() {
+  const div = document.createElement('div');
+  div.className = 'mb-2 border p-2 rounded bg-light';
+  div.innerHTML = `
+    <input type="text" name="task_desc_${taskIdx}" class="form-control mb-1" placeholder="Task description" required>
+    <div class="row">
+      <div class="col">
+        <input type="number" step="0.1" name="task_hours_${taskIdx}" class="form-control" placeholder="Hours" value="1">
+      </div>
+      <div class="col">
+        <input type="number" step="0.01" name="task_rate_${taskIdx}" class="form-control" placeholder="Rate (default {{ default_rate }})">
+      </div>
+    </div>
+  `;
+  document.getElementById('tasks-container').appendChild(div);
+  taskIdx++;
+}
+
+let partIdx = 0;
+const partsData = {{ parts | tojson | safe }};
+
+function addPart() {
+  const div = document.createElement('div');
+  div.className = 'mb-2 border p-2 rounded bg-light';
+
+  let options = '<option value="">-- select part --</option>';
+  partsData.forEach(p => {
+    options += `<option value="${p. sku}">${p.sku} – ${p.name} (${p.unit_price} Kč, stock: ${p. stock_qty})</option>`;
+  });
+
+  div.innerHTML = `
+    <div class="row">
+      <div class="col-8">
+        <select name="part_sku_${partIdx}" class="form-select" required>
+          ${options}
+        </select>
+      </div>
+      <div class="col-4">
+        <input type="number" name="part_qty_${partIdx}" class="form-control" placeholder="Qty" value="1" min="1" required>
+      </div>
+    </div>
+  `;
+  document.getElementById('parts-container').appendChild(div);
+  partIdx++;
+}
+</script>
+{% endblock %}

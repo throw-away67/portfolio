@@ -75,7 +75,6 @@ class OrderService:
         if asset_id is None and not (asset_type and asset_label):
             raise ValidationError("Either asset_id or asset_type+asset_label must be provided.")
 
-        # Create customer if needed
         if customer_id is None:
             customer_id = self.customer_repo.create(
                 conn,
@@ -85,7 +84,6 @@ class OrderService:
                 is_vip=is_vip,
             )
 
-        # Create asset if needed
         if asset_id is None:
             asset_id = self.asset_repo.create(
                 conn,
@@ -103,7 +101,6 @@ class OrderService:
             note=note,
         )
 
-        # Insert tasks
         for t in tasks:
             if not t.description.strip():
                 raise ValidationError("Task description cannot be empty.")
@@ -120,7 +117,6 @@ class OrderService:
                 hourly_rate=float(t.hourly_rate),
             )
 
-        # Insert parts (lookup by SKU, snapshot unit price)
         for p in parts:
             if p.quantity <= 0:
                 raise ValidationError("Part quantity must be > 0.")
@@ -153,10 +149,8 @@ class OrderService:
         if not payment_method.strip():
             raise ValidationError("Payment method cannot be empty.")
 
-        # 1) set done
         self.order_repo.complete(conn, order_id=order_id)
 
-        # 2) decrease stock based on order_part lines
         if decrease_stock:
             lines = self.order_part_repo.list_for_order(conn, order_id)
             for ln in lines:
@@ -166,7 +160,6 @@ class OrderService:
                     qty=int(ln["quantity"]),
                 )
 
-        # 3) create payment
         payment_id = self.payment_repo.create(
             conn,
             order_id=order_id,

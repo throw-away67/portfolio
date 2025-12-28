@@ -1,8 +1,5 @@
--- Views: aggregations & joins (min 2 views)
-
 BEGIN;
 
--- View 1: totals per order (joins & aggregates across >=3 tables)
 CREATE OR REPLACE VIEW v_order_totals AS
 SELECT
   o.id AS order_id,
@@ -30,7 +27,6 @@ LEFT JOIN (
   GROUP BY order_id
 ) p ON p.order_id = o.id;
 
--- View 2: customer activity overview
 CREATE OR REPLACE VIEW v_customer_activity AS
 SELECT
   c.id AS customer_id,

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Home - ServiceDesk{% endblock %}
+{% block content %}
+<div class="jumbotron">
+  <h1 class="display-4">ServiceDesk Web UI</h1>
+  <p class="lead">Manage service orders, customers, parts, and assets. </p>
+  <hr class="my-4">
+  <p>Choose from menu:</p>
+  <a class="btn btn-primary btn-lg" href="{{ url_for('orders_new') }}" role="button">Create Order</a>
+  <a class="btn btn-secondary btn-lg" href="{{ url_for('customers_list') }}" role="button">View Customers</a>
+  <a class="btn btn-secondary btn-lg" href="{{ url_for('parts_list') }}" role="button">View Parts</a>
+</div>
+{% endblock %}

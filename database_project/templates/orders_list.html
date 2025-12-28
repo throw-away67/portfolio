@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Orders{% endblock %}
+{% block content %}
+<h2>Orders</h2>
+<a href="{{ url_for('orders_new') }}" class="btn btn-success mb-3">+ New Order</a>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Status</th>
+      <th>Customer</th>
+      <th>Asset</th>
+      <th>Labor</th>
+      <th>Parts</th>
+      <th>Total</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for o in orders %}
+    <tr>
+      <td>{{ o.order_id }}</td>
+      <td><span class="badge bg-info">{{ o.status }}</span></td>
+      <td>{{ o.customer_name }}</td>
+      <td>{{ o. asset_label }}</td>
+      <td>{{ o.labor_total }}</td>
+      <td>{{ o.parts_total }}</td>
+      <td><strong>{{ o.grand_total }}</strong></td>
+      <td>
+        {% if o.status != 'done' %}
+        <a href="{{ url_for('orders_complete', order_id=o.order_id) }}" class="btn btn-sm btn-primary">Complete</a>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

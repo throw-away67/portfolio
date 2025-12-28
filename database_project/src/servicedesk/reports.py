@@ -6,7 +6,6 @@ from psycopg import Connection
 
 
 def revenue_report(conn: Connection, date_from: datetime, date_to: datetime) -> dict:
-    # joins: payment + service_order + order_part + part (and tasks indirectly via view if needed)
     cur = conn.execute(
         """
         SELECT

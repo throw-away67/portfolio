@@ -33,5 +33,19 @@ class AssetRepository:
             """,
             (customer_id,),
         )
-        cols = [d.name for d in cur.description]
+        cols = [d. name for d in cur.description]
+        return [dict(zip(cols, row)) for row in cur.fetchall()]
+
+    def list_all(self, conn: Connection, limit: int = 50) -> list[dict]:
+        cur = conn.execute(
+            """
+            SELECT a.id, a.asset_type, a.label, a.serial_no, a.customer_id, c.full_name AS customer_name, a.created_at
+            FROM asset a
+            JOIN customer c ON c.id = a.customer_id
+            ORDER BY a.id DESC
+            LIMIT %s;
+            """,
+            (limit,),
+        )
+        cols = [d.name for d in cur. description]
         return [dict(zip(cols, row)) for row in cur.fetchall()]

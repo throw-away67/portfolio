@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Assets{% endblock %}
+{% block content %}
+<h2>Assets</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Type</th>
+      <th>Label</th>
+      <th>Serial</th>
+      <th>Customer</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for a in assets %}
+    <tr>
+      <td>{{ a.id }}</td>
+      <td>{{ a.asset_type }}</td>
+      <td>{{ a.label }}</td>
+      <td>{{ a.serial_no or '—' }}</td>
+      <td>{{ a.customer_name }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

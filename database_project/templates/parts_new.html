@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}New Part{% endblock %}
+{% block content %}
+<h2>New Part</h2>
+<form method="POST">
+  <div class="mb-3">
+    <label class="form-label">SKU*</label>
+    <input type="text" name="sku" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Name*</label>
+    <input type="text" name="name" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Unit Price</label>
+    <input type="number" step="0.01" name="unit_price" class="form-control" value="0">
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Stock Quantity</label>
+    <input type="number" name="stock_qty" class="form-control" value="0">
+  </div>
+  <div class="mb-3 form-check">
+    <input type="checkbox" name="is_active" class="form-check-input" id="chkActive" checked>
+    <label class="form-check-label" for="chkActive">Active</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Create/Update</button>
+  <a href="{{ url_for('parts_list') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

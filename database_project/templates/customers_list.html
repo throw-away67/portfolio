@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Customers{% endblock %}
+{% block content %}
+<h2>Customers</h2>
+<a href="{{ url_for('customers_new') }}" class="btn btn-success mb-3">+ New Customer</a>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>VIP</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for c in customers %}
+    <tr>
+      <td>{{ c. id }}</td>
+      <td>{{ c.full_name }}</td>
+      <td>{{ c.email or '—' }}</td>
+      <td>{{ c.phone or '—' }}</td>
+      <td>{% if c.is_vip %}✔{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

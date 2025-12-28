@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import sys
-
 from servicedesk.config import ConfigError, load_config
 from servicedesk.db import Db, DbError
 from servicedesk.cli import run_cli
