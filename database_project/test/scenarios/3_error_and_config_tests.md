@@ -1,4 +1,4 @@
-# Testovací scénář 3 – Testy chyb a konfigurace (PDF)
+# Testovací scénář 3 – Testy chyb a konfigurace
 
 Cíl: Otestovat robustní chování aplikace při chybách konfigurace, vstupů a DB připojení.
 
