@@ -1,4 +1,4 @@
-# Testovací scénář 2 – Funkční testy (PDF)
+# Testovací scénář 2 – Funkční testy
 
 Cíl: Otestovat splnění bodů 4–7 (CRUD přes více tabulek, transakce, report, import).
 
