@@ -1,4 +1,4 @@
-# Testovací scénář 1 – Instalace a nastavení (PDF)
+# Testovací scénář 1 – Instalace a nastavení
 
 Cíl: Ověřit, že aplikaci lze nainstalovat a spustit na školním PC, včetně importu DB.
 

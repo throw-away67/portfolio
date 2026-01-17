@@ -1,4 +1,4 @@
-# Testovací scénář 2 – Funkční testy (PDF)
+# Testovací scénář 2 – Funkční testy
 
 Cíl: Otestovat splnění bodů 4–7 (CRUD přes více tabulek, transakce, report, import).
 
@@ -28,6 +28,7 @@ Cíl: Otestovat splnění bodů 4–7 (CRUD přes více tabulek, transakce, repo
    - "Celkové statistiky" – COUNT, SUM, MIN, MAX z `orders`.
 
 ### C. Import dat (CSV/JSON)
+***můžete použít soubory z tohoto repozitáře /database_project/test/data***
 1. Import zákazníků (CSV) na `/customers`:
    - Připravit CSV soubor s hlavičkou `name,email,credit,is_active`.
    - Nahrát a odeslat.
