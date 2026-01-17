@@ -1,0 +1,11 @@
+@startuml
+package "p2p_bank_node" {
+  [TCP Server] --> [Protocol Parser]
+  [Protocol Parser] --> [Command Handlers]
+  [Command Handlers] --> [Bank Service]
+  [Bank Service] --> [JSON Persistence (pvl_persist)]
+  [Command Handlers] --> [Proxy Client]
+  [TCP Server] --> [Logger]
+  [Proxy Client] --> [Logger]
+}
+@enduml

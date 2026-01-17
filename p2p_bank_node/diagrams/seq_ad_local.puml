@@ -1,0 +1,16 @@
+@startuml
+actor Client
+participant "TCP Server" as S
+participant "Parser" as P
+participant "Bank Service" as B
+participant "Persistence" as D
+
+Client -> S: "AD 10001/<myip> 3000\n"
+S -> P: parse/validate
+P -> S: Command(AD)
+S -> B: deposit(10001,3000)
+B -> D: save(state)
+D --> B: ok
+B --> S: ok
+S --> Client: "AD\n"
+@enduml

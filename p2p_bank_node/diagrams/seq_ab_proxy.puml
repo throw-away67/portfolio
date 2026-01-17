@@ -1,0 +1,13 @@
+@startuml
+actor Client
+participant "My Bank (proxy)" as A
+participant "Proxy Client" as PX
+participant "Remote Bank" as R
+
+Client -> A: "AB 10001/10.1.2.50\n"
+A -> PX: forward(target=10.1.2.50)
+PX -> R: TCP connect + send line
+R --> PX: "AB 2000\n"
+PX --> A: "AB 2000"
+A --> Client: "AB 2000\n"
+@enduml
