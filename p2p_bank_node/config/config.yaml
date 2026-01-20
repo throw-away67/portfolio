@@ -1,0 +1,15 @@
+bank:
+  ip: "127.0.0.1"   # nastavíš ručně na svoje PC
+  port: 65525
+
+timeouts:
+  command_timeout_sec: 60.0
+  client_idle_timeout_sec: 60.0
+  proxy_timeout_sec: 60.0
+
+storage:
+  data_file: "data/bank_state.json"
+
+logging:
+  level: "INFO"
+  file: "logs/bank.log"
